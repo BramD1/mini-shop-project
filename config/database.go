@@ -4,6 +4,7 @@ import (
     "os"
     "gorm.io/gorm"
     "gorm.io/driver/mysql"
+    "mini-shop/domain"
 )
 
 func ConnectDB() (*gorm.DB, error) {
@@ -16,5 +17,21 @@ func ConnectDB() (*gorm.DB, error) {
         return nil, err
     }
 
+    err = db.AutoMigrate(
+        &domain.User{},
+        &domain.Toko{},
+        &domain.Alamat{},
+        &domain.Category{},
+        &domain.Produk{},
+        &domain.FotoProduk{},
+        &domain.LogProduk{},
+        &domain.Trx{},
+        &domain.DetailTrx{},
+    )
+	if err != nil {
+        return nil, err
+    }
+
     return db, nil
+
 }
