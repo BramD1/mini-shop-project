@@ -15,6 +15,7 @@ type User struct {
 	ProvinsiID uint `json:"id_provinsi"`
 	KotaID uint `json:"id_kota"`
 	IsAdmin bool `json:"is_admin"`
+	Token string `json:"token" gorm:"-"`
 }
 
 func (User) TableName() string {
