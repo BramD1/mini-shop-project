@@ -2,8 +2,8 @@ package handler
 
 import (
     "net/http"
-    "mini-shop-project/domain"
-    "mini-shop-project/utils"
+    "mini-shop/domain"
+    "mini-shop/utils"
     "github.com/gin-gonic/gin"
 )
 

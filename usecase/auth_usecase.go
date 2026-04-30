@@ -3,8 +3,8 @@ package usecase
 import (
     "errors"
     "fmt"
-    "mini-shop-project/domain"
-    "mini-shop-project/utils"
+    "mini-shop/domain"
+    "mini-shop/utils"
     "golang.org/x/crypto/bcrypt"
 )
 

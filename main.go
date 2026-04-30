@@ -5,25 +5,27 @@ import (
     "os"
     "github.com/joho/godotenv"
     "mini-shop/config"
+    "mini-shop/repository"
+    "mini-shop/usecase"
+    "mini-shop/router"
 )
 
 func main() {
-    // 1. Load .env
-    err := godotenv.Load()
-    if err != nil {
-        log.Fatal("Error loading .env file")
-    }
+    godotenv.Load()
 
-    // 2. Connect to database
     db, err := config.ConnectDB()
     if err != nil {
         log.Fatal("Failed to connect to database:", err)
     }
 
-    // 3. Just to confirm connection works for now
-    log.Println("Database connected!", db)
+    // Repositories
+    userRepo := repository.NewUserRepository(db)
+    tokoRepo := repository.NewTokoRepository(db)
 
-    // 4. Start server (we'll add router later)
-    port := os.Getenv("SERVER_PORT")
-    log.Println("Server running on port", port)
+    // Usecases
+    authUsecase := usecase.NewAuthUsecase(userRepo, tokoRepo)
+
+    // Router
+    r := router.SetupRouter(authUsecase)
+    r.Run(":" + os.Getenv("SERVER_PORT"))
 }

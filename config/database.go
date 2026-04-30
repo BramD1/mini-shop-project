@@ -2,9 +2,9 @@ package config
 
 import (
     "os"
+    "mini-shop/domain"
     "gorm.io/gorm"
     "gorm.io/driver/mysql"
-    "mini-shop/domain"
 )
 
 func ConnectDB() (*gorm.DB, error) {

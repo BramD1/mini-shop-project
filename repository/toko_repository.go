@@ -1,7 +1,7 @@
 package repository
 
 import (
-    "mini-shop-project/domain"
+    "mini-shop/domain"
     "gorm.io/gorm"
 )
 
