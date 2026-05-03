@@ -2,6 +2,13 @@ package domain
 
 import "gorm.io/gorm"
 
+type ProdukUsecase interface {
+    GetAllProduk(limit, offset int, namaProduk string, categoryID, tokoID uint, maxHarga, minHarga int) ([]Produk, error)
+    GetProdukByID(id uint) (Produk, error)
+    CreateProduk(produk Produk, userID uint) (Produk, error)
+    UpdateProduk(produk Produk, userID uint) (Produk, error)
+    DeleteProduk(id, userID uint) error
+}
 
 type Produk struct {
 	gorm.Model
