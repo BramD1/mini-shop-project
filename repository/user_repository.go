@@ -37,12 +37,32 @@ func (r *userRepository) Create(user domain.User) (domain.User, error) {
     return user, err
 }
 
-func (r *userRepository) Update(user domain.User) (domain.User, error) {
-    err := r.db.Save(&user).Error
-    return user, err
-}
-
 func (r *userRepository) Delete(id uint) error {
     err := r.db.Delete(&domain.User{}, id).Error
     return err
+}
+
+func (r *userRepository) Update(user domain.User) (domain.User, error) {
+    // First find the existing user
+    var existing domain.User
+    err := r.db.First(&existing, user.ID).Error
+    if err != nil {
+        return domain.User{}, err
+    }
+
+    // Only update the fields that are provided
+    err = r.db.Model(&existing).Updates(map[string]interface{}{
+        "nama":          user.Nama,
+        "no_telp":       user.NoTelp,
+        "tanggal_lahir": user.TanggalLahir,
+        "jenis_kelamin": user.JenisKelamin,
+        "tentang":       user.Tentang,
+        "pekerjaan":     user.Pekerjaan,
+        "email":         user.Email,
+        "kata_sandi":    user.KataSandi,
+        "provinsi_id":   user.ProvinsiID,  // ← fixed
+        "kota_id":       user.KotaID,      // ← fixed
+    }).Error
+
+    return existing, err
 }

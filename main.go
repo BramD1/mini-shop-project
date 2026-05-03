@@ -24,8 +24,9 @@ func main() {
 
     // Usecases
     authUsecase := usecase.NewAuthUsecase(userRepo, tokoRepo)
+    userUsecase := usecase.NewUserUsecase(userRepo)  // ← moved before Run
 
     // Router
-    r := router.SetupRouter(authUsecase)
-    r.Run(":" + os.Getenv("SERVER_PORT"))
+    r := router.SetupRouter(authUsecase, userUsecase)  // ← pass both
+    r.Run(":" + os.Getenv("SERVER_PORT"))  // ← always last
 }
