@@ -23,9 +23,10 @@ type TokoRepository interface {
 }
 
 type TokoUsecase interface {
-	GetTokoByID(id uint) (Toko, error)
-	GetTokoByUserID(userID uint) (Toko, error)
-	CreateToko(toko Toko) (Toko, error)
-	UpdateToko(toko Toko) (Toko, error)
-	DeleteToko(id uint) error
+    GetTokoByID(id uint) (Toko, error)
+    GetTokoByUserID(userID uint) (Toko, error)
+    GetAllToko(limit, offset int, nama string) ([]Toko, error)
+    CreateToko(toko Toko) (Toko, error)
+    UpdateToko(toko Toko, userID uint) (Toko, error)
+    DeleteToko(id uint) error
 }

@@ -48,5 +48,19 @@ func (h *AuthHandler) Login(c *gin.Context) {
         return
     }
 
-    c.JSON(http.StatusOK, utils.SuccessResponse("Succeed to POST data", user))
+    // Map to response struct to hide password
+    response := UserResponse{
+        ID:           user.ID,
+        Nama:         user.Nama,
+        NoTelp:       user.NoTelp,
+        TanggalLahir: user.TanggalLahir,
+        Pekerjaan:    user.Pekerjaan,
+        Email:        user.Email,
+        ProvinsiID:   user.ProvinsiID,
+        KotaID:       user.KotaID,
+        IsAdmin:      user.IsAdmin,
+        Token:        user.Token,
+    }
+
+    c.JSON(http.StatusOK, utils.SuccessResponse("Succeed to POST data", response))
 }

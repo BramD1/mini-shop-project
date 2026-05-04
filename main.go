@@ -36,6 +36,7 @@ func main() {
     categoryUsecase := usecase.NewCategoryUsecase(categoryRepo)
     produkUsecase   := usecase.NewProdukUsecase(produkRepo, tokoRepo, fotoProdukRepo)
     trxUsecase      := usecase.NewTrxUsecase(trxRepo, detailTrxRepo, logProdukRepo, produkRepo, alamatRepo)
+    tokoUsecase     := usecase.NewTokoUsecase(tokoRepo)
 
     // Router
     r := router.SetupRouter(
@@ -46,6 +47,7 @@ func main() {
         produkUsecase,
         fotoProdukRepo,
         trxUsecase,
+        tokoUsecase,
     )
     r.Run(":" + os.Getenv("SERVER_PORT"))
 }

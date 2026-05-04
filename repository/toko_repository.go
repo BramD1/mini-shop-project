@@ -41,8 +41,23 @@ func (r *tokoRepository) Create(toko domain.Toko) (domain.Toko, error) {
 }
 
 func (r *tokoRepository) Update(toko domain.Toko) (domain.Toko, error) {
-    err := r.db.Save(&toko).Error
-    return toko, err
+    var existing domain.Toko
+    err := r.db.First(&existing, toko.ID).Error
+    if err != nil {
+        return domain.Toko{}, err
+    }
+
+    updateData := map[string]interface{}{}
+
+    if toko.NamaToko != "" {
+        updateData["nama_toko"] = toko.NamaToko
+    }
+    if toko.URLFoto != "" {
+        updateData["url_foto"] = toko.URLFoto
+    }
+
+    err = r.db.Model(&existing).Updates(updateData).Error
+    return existing, err
 }
 
 func (r *tokoRepository) Delete(id uint) error {

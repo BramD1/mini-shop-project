@@ -35,8 +35,17 @@ func (r *trxRepository) Create(trx domain.Trx) (domain.Trx, error) {
 }
 
 func (r *trxRepository) Update(trx domain.Trx) (domain.Trx, error) {
-    err := r.db.Save(&trx).Error
-    return trx, err
+    var existing domain.Trx
+    err := r.db.First(&existing, trx.ID).Error
+    if err != nil {
+        return domain.Trx{}, err
+    }
+
+    err = r.db.Model(&existing).Updates(map[string]interface{}{
+        "harga_total": trx.HargaTotal,
+    }).Error
+
+    return existing, err
 }
 
 func (r *trxRepository) Delete(id uint) error {

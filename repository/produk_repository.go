@@ -47,8 +47,23 @@ func (r *produkRepository) Create(produk domain.Produk) (domain.Produk, error) {
 }
 
 func (r *produkRepository) Update(produk domain.Produk) (domain.Produk, error) {
-    err := r.db.Save(&produk).Error
-    return produk, err
+    var existing domain.Produk
+    err := r.db.First(&existing, produk.ID).Error
+    if err != nil {
+        return domain.Produk{}, err
+    }
+
+    err = r.db.Model(&existing).Updates(map[string]interface{}{
+        "nama_produk":    produk.NamaProduk,
+        "slug":           produk.Slug,
+        "harga_reseller": produk.HargaReseller,
+        "harga_konsumen": produk.HargaKonsumen,
+        "stok":           produk.Stok,
+        "deskripsi":      produk.Deskripsi,
+        "category_id":    produk.CategoryID,
+    }).Error
+
+    return existing, err
 }
 
 func (r *produkRepository) Delete(id uint) error {

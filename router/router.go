@@ -15,6 +15,7 @@ func SetupRouter(
     produkUsecase   domain.ProdukUsecase,
     fotoProdukRepo  domain.FotoProdukRepository,
     trxUsecase      domain.TrxUsecase,
+    tokoUsecase     domain.TokoUsecase,
 ) *gin.Engine {
     r := gin.Default()
     api := r.Group("/api/v1")
@@ -48,23 +49,13 @@ func SetupRouter(
     }
 
     // Toko
-    tokoHandler := handler.NewTokoHandler(handler.TokoUsecase(produkUsecase))
+    tokoHandler := handler.NewTokoHandler(tokoUsecase)
     toko := api.Group("/toko")
     {
         toko.GET("", tokoHandler.GetAllToko)
         toko.GET("/my", middleware.AuthMiddleware(), tokoHandler.GetMyToko)
         toko.GET("/:id", tokoHandler.GetTokoByID)
         toko.PUT("/:id", middleware.AuthMiddleware(), tokoHandler.UpdateToko)
-    }
-
-    // Province/City
-    provCityHandler := handler.NewProvCityHandler(nil) // wire usecase
-    provCity := api.Group("/provcity")
-    {
-        provCity.GET("/listprovincies", provCityHandler.GetAllProvinces)
-        provCity.GET("/listcities/:prov_id", provCityHandler.GetCitiesByProvinceID)
-        provCity.GET("/detailprovince/:prov_id", provCityHandler.GetProvinceByID)
-        provCity.GET("/detailcity/:city_id", provCityHandler.GetCityByID)
     }
 
     // Category

@@ -25,8 +25,23 @@ func (r *fotoProdukRepository) Create(foto domain.FotoProduk) (domain.FotoProduk
 }
 
 func (r *fotoProdukRepository) Update(foto domain.FotoProduk) (domain.FotoProduk, error) {
-    err := r.db.Save(&foto).Error
-    return foto, err
+    var existing domain.FotoProduk
+    err := r.db.First(&existing, foto.ID).Error
+    if err != nil {
+        return domain.FotoProduk{}, err
+    }
+
+    updateData := map[string]interface{}{}
+
+    if foto.ProdukID != 0 {
+        updateData["produk_id"] = foto.ProdukID
+    }
+    if foto.URL != "" {
+        updateData["url"] = foto.URL
+    }
+
+    err = r.db.Model(&existing).Updates(updateData).Error
+    return existing, err
 }
 
 func (r *fotoProdukRepository) Delete(id uint) error {

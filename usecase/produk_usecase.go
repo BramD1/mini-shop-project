@@ -32,8 +32,13 @@ func (u *produkUsecase) GetProdukByID(id uint) (domain.Produk, error) {
     return produk, nil
 }
 
-func (u *produkUsecase) CreateProduk(produk domain.Produk) (domain.Produk, error) {
-    // Generate slug
+func (u *produkUsecase) CreateProduk(produk domain.Produk, userID uint) (domain.Produk, error) {
+    // Get toko by userID
+    toko, err := u.tokoRepo.FindByUserID(userID)
+    if err != nil {
+        return domain.Produk{}, errors.New("toko not found")
+    }
+    produk.TokoID = toko.ID
     produk.Slug = strings.ToLower(strings.ReplaceAll(produk.NamaProduk, " ", "-"))
     return u.produkRepo.Create(produk)
 }

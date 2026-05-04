@@ -31,8 +31,17 @@ func (r *categoryRepository) Create(category domain.Category) (domain.Category, 
 }
 
 func (r *categoryRepository) Update(category domain.Category) (domain.Category, error) {
-    err := r.db.Save(&category).Error
-    return category, err
+    var existing domain.Category
+    err := r.db.First(&existing, category.ID).Error
+    if err != nil {
+        return domain.Category{}, err
+    }
+
+    err = r.db.Model(&existing).Updates(map[string]interface{}{
+        "nama_category": category.NamaCategory,
+    }).Error
+
+    return existing, err
 }
 
 func (r *categoryRepository) Delete(id uint) error {

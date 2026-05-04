@@ -11,7 +11,7 @@ type User struct {
     UpdatedAt    time.Time      `json:"updated_at"`
     DeletedAt    gorm.DeletedAt `json:"-" gorm:"index"`
     Nama         string         `json:"nama"`
-    KataSandi    string         `json:"-" gorm:"column:kata_sandi"`
+    KataSandi    string         `json:"kata_sandi,omitempty" gorm:"column:kata_sandi"`
     NoTelp       string         `gorm:"unique" json:"no_telp"`
     TanggalLahir string         `json:"tanggal_lahir"`
     JenisKelamin string         `json:"jenis_kelamin"`

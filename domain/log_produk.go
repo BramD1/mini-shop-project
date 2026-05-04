@@ -4,15 +4,16 @@ import "gorm.io/gorm"
 
 
 type LogProduk struct {
-	gorm.Model
-	ProdukID  uint   `json:"produk_id"`
-	NamaProduk string `json:"nama_produk"`
-	Slug string `json:"slug"`
-	HargaReseller uint   `json:"harga_reseller"`
-	HargaKonsumen uint   `json:"harga_konsumen"`
-	Deskripsi  string `json:"deskripsi"`
-	TokoID    uint   `json:"toko_id"`
-	CategoryID uint   `json:"category_id"`
+    gorm.Model
+    ProdukID      uint   `json:"produk_id"`
+    NamaProduk    string `json:"nama_produk"`
+    Slug          string `json:"slug"`
+    HargaReseller uint   `json:"harga_reseller"`
+    HargaKonsumen uint   `json:"harga_konsumen"`
+    Stok          uint   `json:"stok"`
+    Deskripsi     string `json:"deskripsi"`
+    TokoID        uint   `json:"toko_id"`
+    CategoryID    uint   `json:"category_id"`
 }
 
 func (LogProduk) TableName() string {

@@ -2,6 +2,12 @@ package domain
 
 import "gorm.io/gorm"
 
+type TrxUsecase interface {
+    GetAllTrx(userID uint) ([]Trx, error)
+    GetTrxByID(id, userID uint) (Trx, error)
+    CreateTrx(trx Trx, details []DetailTrxInput, userID uint) (Trx, error)
+}
+
 type Trx struct {
 	gorm.Model
 	UserID   uint   `json:"id_user"`
@@ -24,11 +30,4 @@ type TrxRepository interface {
 	Create(trx Trx) (Trx, error)
 	Update(trx Trx) (Trx, error)
 	Delete(id uint) error
-}
-
-type TrxUsecase interface {
-	GetTrxByID(id uint) (Trx, error)
-	CreateTrx(trx Trx) (Trx, error)
-	UpdateTrx(trx Trx) (Trx, error)
-	DeleteTrx(id uint) error
 }

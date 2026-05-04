@@ -7,12 +7,6 @@ import (
     "mini-shop/domain"
 )
 
-type TrxUsecase interface {
-    GetAllTrx(userID uint) ([]Trx, error)
-    GetTrxByID(id, userID uint) (Trx, error)
-    CreateTrx(trx Trx, details []DetailTrxInput, userID uint) (Trx, error)
-}
-
 type trxUsecase struct {
     trxRepo      domain.TrxRepository
     detailRepo   domain.DetailTrxRepository
